@@ -21,14 +21,15 @@ const { Text } = Typography;
 export const ProjectList: React.FC = () => {
   const { tableProps, searchFormProps } = useTable<IProject>({
     syncWithLocation: true,
-    onSearch: (values: Record<string, unknown>) => {
+    onSearch: (values) => {
+      const filters = values as Record<string, unknown>;
       return [
         {
           field: "search",
-          operator: "contains",
-          value: values.search as string,
+          operator: "contains" as const,
+          value: filters.search as string,
         },
-        { field: "status", operator: "eq", value: values.status as string },
+        { field: "status", operator: "eq" as const, value: filters.status as string },
       ];
     },
   });

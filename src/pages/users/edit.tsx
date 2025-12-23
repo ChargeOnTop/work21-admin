@@ -1,13 +1,12 @@
 import { useForm, Edit } from "@refinedev/antd";
 import { Form, Input, Select, Switch, InputNumber, Row, Col, Card } from "antd";
-import { IUser, UserRole } from "../../types";
+import { IUser } from "../../types";
 import { USER_ROLE_LABELS } from "../../utils/constants";
 
 const { TextArea } = Input;
 
 export const UserEdit: React.FC = () => {
-  const { formProps, saveButtonProps, queryResult } = useForm<IUser>();
-  const user = queryResult?.data?.data;
+  const { formProps, saveButtonProps } = useForm<IUser>();
 
   return (
     <Edit saveButtonProps={saveButtonProps}>

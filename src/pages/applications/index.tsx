@@ -1,4 +1,4 @@
-import { List, useTable, TagField, ShowButton } from "@refinedev/antd";
+import { List, useTable, TagField } from "@refinedev/antd";
 import { Table, Space, Select, Button, Form, Typography, Popconfirm, message } from "antd";
 import { CheckOutlined, CloseOutlined } from "@ant-design/icons";
 import axios from "axios";
@@ -16,9 +16,10 @@ const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1";
 export const ApplicationList: React.FC = () => {
   const { tableProps, searchFormProps } = useTable<IApplication>({
     syncWithLocation: true,
-    onSearch: (values: Record<string, unknown>) => {
+    onSearch: (values) => {
+      const filters = values as Record<string, unknown>;
       return [
-        { field: "status", operator: "eq", value: values.status as string },
+        { field: "status", operator: "eq" as const, value: filters.status as string },
       ];
     },
   });

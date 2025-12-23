@@ -13,9 +13,10 @@ const { Text } = Typography;
 export const ContractList: React.FC = () => {
   const { tableProps, searchFormProps } = useTable<IContract>({
     syncWithLocation: true,
-    onSearch: (values: Record<string, unknown>) => {
+    onSearch: (values) => {
+      const filters = values as Record<string, unknown>;
       return [
-        { field: "status", operator: "eq", value: values.status as string },
+        { field: "status", operator: "eq" as const, value: filters.status as string },
       ];
     },
   });

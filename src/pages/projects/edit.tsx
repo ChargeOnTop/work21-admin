@@ -9,27 +9,13 @@ import {
   Col,
   Card,
 } from "antd";
-import dayjs from "dayjs";
-import { IProject, ProjectStatus } from "../../types";
+import { IProject } from "../../types";
 import { PROJECT_STATUS_LABELS } from "../../utils/constants";
 
 const { TextArea } = Input;
 
 export const ProjectEdit: React.FC = () => {
-  const { formProps, saveButtonProps, queryResult } = useForm<IProject>({
-    queryOptions: {
-      select: (data) => {
-        // Преобразуем даты для DatePicker
-        return {
-          ...data,
-          data: {
-            ...data.data,
-            deadline: data.data.deadline ? dayjs(data.data.deadline) : null,
-          },
-        };
-      },
-    },
-  });
+  const { formProps, saveButtonProps } = useForm<IProject>();
 
   return (
     <Edit saveButtonProps={saveButtonProps}>
@@ -113,7 +99,7 @@ export const ProjectEdit: React.FC = () => {
                   formatter={(value) =>
                     `${value}`.replace(/\B(?=(\d{3})+(?!\d))/g, " ")
                   }
-                  parser={(value) => value!.replace(/\s/g, "") as unknown as number}
+                  parser={(value) => Number(value?.replace(/\s/g, "") || 0)}
                 />
               </Form.Item>
 

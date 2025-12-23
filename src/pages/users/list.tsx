@@ -46,18 +46,19 @@ export const UserList: React.FC = () => {
 
   const { tableProps, searchFormProps } = useTable<IUser>({
     syncWithLocation: true,
-    onSearch: (values: Record<string, unknown>) => {
+    onSearch: (values) => {
+      const filters = values as Record<string, unknown>;
       return [
         {
           field: "search",
-          operator: "contains",
-          value: values.search as string,
+          operator: "contains" as const,
+          value: filters.search as string,
         },
-        { field: "role", operator: "eq", value: values.role as string },
+        { field: "role", operator: "eq" as const, value: filters.role as string },
         {
           field: "is_active",
-          operator: "eq",
-          value: values.is_active as boolean,
+          operator: "eq" as const,
+          value: filters.is_active as boolean,
         },
       ];
     },

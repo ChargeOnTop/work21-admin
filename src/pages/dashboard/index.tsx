@@ -21,8 +21,6 @@ import {
   PieChart,
   Pie,
   Cell,
-  LineChart,
-  Line,
   Legend,
 } from "recharts";
 import { IStats, IProject, IUser, ProjectStatus, UserRole } from "../../types";
@@ -31,7 +29,6 @@ import {
   PROJECT_STATUS_COLORS,
   USER_ROLE_LABELS,
   formatCurrency,
-  formatDate,
 } from "../../utils/constants";
 
 const { Title, Text } = Typography;
