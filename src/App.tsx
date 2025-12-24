@@ -29,8 +29,8 @@ import { dataProvider } from "./providers/dataProvider";
 
 // Pages
 import { Dashboard } from "./pages/dashboard";
-import { UserList, UserShow, UserEdit } from "./pages/users";
-import { ProjectList, ProjectShow, ProjectEdit } from "./pages/projects";
+import { UserList, UserShow, UserEdit, UserCreate } from "./pages/users";
+import { ProjectList, ProjectShow, ProjectEdit, ProjectCreate } from "./pages/projects";
 import { ApplicationList } from "./pages/applications";
 import { ContractList } from "./pages/contracts";
 import { RatingList } from "./pages/ratings";
@@ -72,6 +72,7 @@ function App() {
                 {
                   name: "users",
                   list: "/users",
+                  create: "/users/create",
                   show: "/users/show/:id",
                   edit: "/users/edit/:id",
                   meta: {
@@ -82,6 +83,7 @@ function App() {
                 {
                   name: "projects",
                   list: "/projects",
+                  create: "/projects/create",
                   show: "/projects/show/:id",
                   edit: "/projects/edit/:id",
                   meta: {
@@ -164,12 +166,14 @@ function App() {
                   
                   <Route path="/users">
                     <Route index element={<UserList />} />
+                    <Route path="create" element={<UserCreate />} />
                     <Route path="show/:id" element={<UserShow />} />
                     <Route path="edit/:id" element={<UserEdit />} />
                   </Route>
                   
                   <Route path="/projects">
                     <Route index element={<ProjectList />} />
+                    <Route path="create" element={<ProjectCreate />} />
                     <Route path="show/:id" element={<ProjectShow />} />
                     <Route path="edit/:id" element={<ProjectEdit />} />
                   </Route>
