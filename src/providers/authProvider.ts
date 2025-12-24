@@ -1,6 +1,6 @@
 import type { AuthProvider } from "@refinedev/core";
 import axios from "axios";
-import { ILoginResponse, IUser, UserRole } from "../types";
+import { IUser, UserRole } from "../types";
 
 const API_URL = import.meta.env.VITE_API_URL || "http://localhost:8000/api/v1";
 
@@ -33,7 +33,7 @@ export const authProvider: AuthProvider = {
       formData.append("username", email);
       formData.append("password", password);
 
-      const response = await axios.post<ILoginResponse>(
+      const loginResponse = await axios.post(
         `${API_URL}/auth/login`,
         formData,
         {
@@ -43,10 +43,23 @@ export const authProvider: AuthProvider = {
         }
       );
 
-      const { access_token, user } = response.data;
+      const { access_token } = loginResponse.data;
+      
+      // Сохраняем токен
+      localStorage.setItem("token", access_token);
+
+      // Получаем данные пользователя
+      const userResponse = await axios.get<IUser>(`${API_URL}/users/me`, {
+        headers: {
+          Authorization: `Bearer ${access_token}`,
+        },
+      });
+
+      const user = userResponse.data;
 
       // Проверяем что пользователь - админ
       if (user.role !== UserRole.ADMIN) {
+        localStorage.removeItem("token");
         return {
           success: false,
           error: {
@@ -56,7 +69,6 @@ export const authProvider: AuthProvider = {
         };
       }
 
-      localStorage.setItem("token", access_token);
       localStorage.setItem("user", JSON.stringify(user));
 
       return {
@@ -64,6 +76,7 @@ export const authProvider: AuthProvider = {
         redirectTo: "/",
       };
     } catch (error: unknown) {
+      localStorage.removeItem("token");
       const axiosError = error as { response?: { data?: { detail?: string } } };
       return {
         success: false,
@@ -148,4 +161,3 @@ export const authProvider: AuthProvider = {
     return { error };
   },
 };
-
