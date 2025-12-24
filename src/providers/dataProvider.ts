@@ -109,7 +109,8 @@ export const dataProvider = (apiUrl: string): DataProvider => ({
   getApiUrl: () => apiUrl,
 
   custom: async ({ url, method, payload, query }) => {
-    let requestUrl = `${apiUrl}${url}`;
+    // Если URL абсолютный (начинается с http), используем его напрямую
+    let requestUrl = url.startsWith("http") ? url : `${apiUrl}${url}`;
 
     if (query) {
       const params = new URLSearchParams(query as Record<string, string>);
